@@ -61,6 +61,7 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %changelog
 * Thu May 26 2016 Simone Caronni <negativo17@gmail.com> - 2:367.18-1
 - Update to 367.18.
+- Fix module build (thanks Artem).
 
 * Mon May 02 2016 Simone Caronni <negativo17@gmail.com> - 2:364.19-1
 - Update to 364.19.
