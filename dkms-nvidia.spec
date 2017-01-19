@@ -2,7 +2,7 @@
 %global dkms_name nvidia
 
 Name:           dkms-%{dkms_name}
-Version:        375.26
+Version:        378.09
 Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          2
@@ -59,6 +59,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Thu Jan 19 2017 Simone Caronni <negativo17@gmail.com> - 2:378.09-1
+- Update to 378.09.
+
 * Thu Dec 15 2016 Simone Caronni <negativo17@gmail.com> - 2:375.26-1
 - Update to 375.26.
 
