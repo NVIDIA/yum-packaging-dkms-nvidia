@@ -15,7 +15,7 @@ Source0:        %{dkms_name}-kmod-%{version}-i386.tar.xz
 Source1:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
 Source3:        %{name}.conf
 
-Patch1:         kernel-4.10-rc4.patch
+Patch1:         kernel-4.10-rc8.patch
 
 BuildRequires:  sed
 
