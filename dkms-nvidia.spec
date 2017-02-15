@@ -15,7 +15,8 @@ Source0:        %{dkms_name}-kmod-%{version}-i386.tar.xz
 Source1:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
 Source3:        %{name}.conf
 
-Patch1:         kernel-4.10-rc8.patch
+Patch0:         kernel-4.10-rc8.patch
+Patch1:         kernel-4.10-rc8-uvm.patch
 
 BuildRequires:  sed
 
@@ -31,13 +32,15 @@ become available.
 %prep
 %ifarch %{ix86}
 %setup -q -n %{dkms_name}-kmod-%{version}-i386
+%patch0 -p1
+%patch1 -p1
 %endif
 
 %ifarch x86_64
 %setup -q -T -b 1 -n %{dkms_name}-kmod-%{version}-x86_64
+%patch1 -p1
 %endif
 
-%patch1 -p1
 
 cp -f %{SOURCE3} kernel/dkms.conf
 sed -i -e 's/__VERSION_STRING/%{version}/g' kernel/dkms.conf
