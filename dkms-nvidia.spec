@@ -33,11 +33,11 @@ become available.
 %ifarch %{ix86}
 %setup -q -n %{dkms_name}-kmod-%{version}-i386
 %patch0 -p1
-%patch1 -p1
 %endif
 
 %ifarch x86_64
 %setup -q -T -b 1 -n %{dkms_name}-kmod-%{version}-x86_64
+%patch0 -p1
 %patch1 -p1
 %endif
 
