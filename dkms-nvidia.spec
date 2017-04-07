@@ -3,7 +3,7 @@
 
 Name:           dkms-%{dkms_name}
 Version:        375.39
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          2
 License:        NVIDIA License
@@ -13,7 +13,8 @@ ExclusiveArch:  %{ix86} x86_64
 
 Source0:        %{dkms_name}-kmod-%{version}-i386.tar.xz
 Source1:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
-Source3:        %{name}.conf
+Source3:        %{name}-i386.conf
+Source4:        %{name}-x86_64.conf
 
 Patch0:         kernel_4.10.patch
 
@@ -31,15 +32,16 @@ become available.
 %prep
 %ifarch %{ix86}
 %setup -q -n %{dkms_name}-kmod-%{version}-i386
+cp -f %{SOURCE3} kernel/dkms.conf
 %endif
 
 %ifarch x86_64
 %setup -q -T -b 1 -n %{dkms_name}-kmod-%{version}-x86_64
+cp -f %{SOURCE4} kernel/dkms.conf
 %endif
 
 %patch0 -p1
 
-cp -f %{SOURCE3} kernel/dkms.conf
 sed -i -e 's/__VERSION_STRING/%{version}/g' kernel/dkms.conf
 
 %build
@@ -63,6 +65,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Fri Apr 07 2017 Simone Caronni <negativo17@gmail.com> - 2:375.39-3
+- Do not attempt to install UVM module on i386.
+
 * Fri Mar 03 2017 Simone Caronni <negativo17@gmail.com> - 2:375.39-2
 - Add kernel 4.10 patch.
 
