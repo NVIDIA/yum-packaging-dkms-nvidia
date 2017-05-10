@@ -2,8 +2,8 @@
 %global dkms_name nvidia
 
 Name:           dkms-%{dkms_name}
-Version:        381.09
-Release:        2%{?dist}
+Version:        381.22
+Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          2
 License:        NVIDIA License
@@ -61,6 +61,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Wed May 10 2017 Simone Caronni <negativo17@gmail.com> - 2:381.22-1
+- Update to 381.22.
+
 * Thu Apr 13 2017 Simone Caronni <negativo17@gmail.com> - 2:381.09-2
 - Add kernel 4.11 patch.
 
