@@ -2,8 +2,8 @@
 %global dkms_name nvidia
 
 Name:           dkms-%{dkms_name}
-Version:        375.39
-Release:        3%{?dist}
+Version:        375.66
+Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          2
 License:        NVIDIA License
@@ -65,6 +65,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Wed May 10 2017 Simone Caronni <negativo17@gmail.com> - 2:375.66-1
+- Update to 375.66.
+
 * Fri Apr 07 2017 Simone Caronni <negativo17@gmail.com> - 2:375.39-3
 - Do not attempt to install UVM module on i386.
 
