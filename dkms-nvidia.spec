@@ -16,8 +16,6 @@ Source1:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
 Source3:        %{name}-i386.conf
 Source4:        %{name}-x86_64.conf
 
-Patch0:         kernel_4.10.patch
-
 BuildRequires:  sed
 
 Provides:       %{dkms_name}-kmod = %{?epoch}:%{version}
@@ -39,8 +37,6 @@ cp -f %{SOURCE3} kernel/dkms.conf
 %setup -q -T -b 1 -n %{dkms_name}-kmod-%{version}-x86_64
 cp -f %{SOURCE4} kernel/dkms.conf
 %endif
-
-%patch0 -p1
 
 sed -i -e 's/__VERSION_STRING/%{version}/g' kernel/dkms.conf
 
