@@ -2,8 +2,8 @@
 %global dkms_name nvidia
 
 Name:           dkms-%{dkms_name}
-Version:        375.66
-Release:        2%{?dist}
+Version:        384.59
+Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          2
 License:        NVIDIA License
@@ -15,8 +15,6 @@ Source0:        %{dkms_name}-kmod-%{version}-i386.tar.xz
 Source1:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
 Source3:        %{name}-i386.conf
 Source4:        %{name}-x86_64.conf
-
-Patch0:         kernel_4.11.patch
 
 BuildRequires:  sed
 
@@ -39,8 +37,6 @@ cp -f %{SOURCE3} kernel/dkms.conf
 %setup -q -T -b 1 -n %{dkms_name}-kmod-%{version}-x86_64
 cp -f %{SOURCE4} kernel/dkms.conf
 %endif
-
-%patch0 -p1
 
 sed -i -e 's/__VERSION_STRING/%{version}/g' kernel/dkms.conf
 
@@ -65,6 +61,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Wed Jul 26 2017 Simone Caronni <negativo17@gmail.com> - 2:384.59-1
+- Update to 384.59.
+
 * Thu May 11 2017 Simone Caronni <negativo17@gmail.com> - 2:375.66-2
 - Add kernel 4.11 patch.
 
