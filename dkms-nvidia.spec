@@ -3,7 +3,7 @@
 
 Name:           dkms-%{dkms_name}
 Version:        384.90
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          2
 License:        NVIDIA License
@@ -61,6 +61,10 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Mon Oct 09 2017 Simone Caronni <negativo17@gmail.com> - 2:384.90-2
+- Ignore mismatching GCC version when compiling, useful when the distribution is
+  not yet released and compilers are being updated.
+
 * Fri Sep 22 2017 Simone Caronni <negativo17@gmail.com> - 2:384.90-1
 - Update to 384.90.
 
