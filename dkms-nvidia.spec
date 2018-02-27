@@ -3,9 +3,9 @@
 
 Name:           dkms-%{dkms_name}
 Version:        390.25
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        NVIDIA display driver kernel module
-Epoch:          2
+Epoch:          3
 License:        NVIDIA License
 URL:            http://www.nvidia.com/object/unix.html
 # Package is not noarch as it contains pre-compiled binary code
@@ -65,6 +65,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Tue Feb 27 2018 Simone Caronni <negativo17@gmail.com> - 3:390.25-3
+- Align Epoch with the other packages.
+
 * Wed Feb 21 2018 Simone Caronni <negativo17@gmail.com> - 2:390.25-2
 - Add kernel 4.15 patch.
 
