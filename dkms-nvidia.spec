@@ -2,8 +2,8 @@
 %global dkms_name nvidia
 
 Name:           dkms-%{dkms_name}
-Version:        390.42
-Release:        2%{?dist}
+Version:        390.48
+Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
 License:        NVIDIA License
@@ -16,7 +16,7 @@ Source1:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
 Source3:        %{name}-i386.conf
 Source4:        %{name}-x86_64.conf
 
-Patch0:         kernel_4.15.patch
+Patch0:         kernel_4.16.patch
 
 BuildRequires:  sed
 
@@ -65,6 +65,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Tue Apr 03 2018 Simone Caronni <negativo17@gmail.com> - 3:390.48-1
+- Update to 390.48.
+
 * Wed Mar 21 2018 Simone Caronni <negativo17@gmail.com> - 3:390.42-2
 - Re-add kernel 4.15 patch.
 
