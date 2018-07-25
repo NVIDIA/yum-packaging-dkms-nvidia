@@ -20,6 +20,8 @@ Source4:        %{name}-x86_64.conf
 BuildRequires:  sed
 
 Provides:       %{dkms_name}-kmod = %{?epoch}:%{version}
+Obsoletes:      %{dkms_name}-kmod < %{?epoch}:%{version}
+Conflicts:      %{dkms_name}-kmod
 Requires:       %{dkms_name}-driver = %{?epoch}:%{version}
 Requires:       dkms
 
