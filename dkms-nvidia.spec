@@ -2,20 +2,18 @@
 %global dkms_name nvidia
 
 Name:           dkms-%{dkms_name}
-Version:        390.42
-Release:        2%{?dist}
+Version:        410.66
+Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
 License:        NVIDIA License
 URL:            http://www.nvidia.com/object/unix.html
 # Package is not noarch as it contains pre-compiled binary code
-ExclusiveArch:  %{ix86} x86_64 ppc64le
+ExclusiveArch:  x86_64 ppc64le
 
-Source0:        %{dkms_name}-kmod-%{version}-i386.tar.xz
-Source1:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
+Source0:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
+Source1:        %{name}.conf
 Source2:        %{dkms_name}-kmod-%{version}-ppc64le.tar.xz
-Source3:        %{name}-i386.conf
-Source4:        %{name}-x86_64.conf
 
 BuildRequires:  sed
 
@@ -31,15 +29,8 @@ The modules are rebuilt through the DKMS system when a new kernel or modules
 become available.
 
 %prep
-%ifarch %{ix86}
-%setup -q -n %{dkms_name}-kmod-%{version}-i386
-cp -f %{SOURCE3} kernel/dkms.conf
-%endif
-
-%ifarch x86_64
-%setup -q -T -b 1 -n %{dkms_name}-kmod-%{version}-x86_64
-cp -f %{SOURCE4} kernel/dkms.conf
-%endif
+%setup -q -n %{dkms_name}-kmod-%{version}-x86_64
+cp -f %{SOURCE1} kernel/dkms.conf
 
 %ifarch ppc64le
 %setup -q -T -b 2 -n %{dkms_name}-kmod-%{version}-ppc64le
@@ -69,6 +60,30 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Wed Oct 17 2018 Simone Caronni <negativo17@gmail.com> - 3:410.66-1
+- Update to 410.66.
+
+* Sat Sep 22 2018 Simone Caronni <negativo17@gmail.com> - 3:410.57-1
+- Update to 410.57.
+
+* Wed Aug 22 2018 Simone Caronni <negativo17@gmail.com> - 3:396.54-1
+- Update to 396.54.
+
+* Sun Aug 19 2018 Simone Caronni <negativo17@gmail.com> - 3:396.51-1
+- Update to 396.51.
+
+* Fri Jul 20 2018 Simone Caronni <negativo17@gmail.com> - 3:396.45-1
+- Update to 396.45.
+
+* Fri Jun 01 2018 Simone Caronni <negativo17@gmail.com> - 3:396.24-1
+- Update to 396.24, x86_64 only.
+
+* Tue May 22 2018 Simone Caronni <negativo17@gmail.com> - 3:390.59-1
+- Update to 390.59.
+
+* Tue Apr 03 2018 Simone Caronni <negativo17@gmail.com> - 3:390.48-1
+- Update to 390.48.
+
 * Wed Mar 21 2018 Simone Caronni <negativo17@gmail.com> - 3:390.42-2
 - Re-add kernel 4.15 patch.
 
