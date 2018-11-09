@@ -36,7 +36,7 @@ cp -f %{SOURCE1} kernel/dkms.conf
 
 %ifarch ppc64le
 %setup -q -T -b 2 -n %{dkms_name}-kmod-%{version}-ppc64le
-cp -f %{SOURCE4} kernel/dkms.conf
+cp -f %{SOURCE1} kernel/dkms.conf
 %endif
 
 sed -i -e 's/__VERSION_STRING/%{version}/g' kernel/dkms.conf
