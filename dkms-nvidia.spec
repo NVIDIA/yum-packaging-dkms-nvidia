@@ -29,8 +29,10 @@ The modules are rebuilt through the DKMS system when a new kernel or modules
 become available.
 
 %prep
+%ifarch x86_64
 %setup -q -n %{dkms_name}-kmod-%{version}-x86_64
 cp -f %{SOURCE1} kernel/dkms.conf
+%endif
 
 %ifarch ppc64le
 %setup -q -T -b 2 -n %{dkms_name}-kmod-%{version}-ppc64le
