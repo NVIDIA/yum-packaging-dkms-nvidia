@@ -3,7 +3,7 @@
 
 Name:           dkms-%{dkms_name}
 Version:        410.93
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
 License:        NVIDIA License
@@ -16,8 +16,8 @@ Source1:        %{name}.conf
 
 BuildRequires:  sed
 
-Provides:       %{dkms_name}-kmod = %{?epoch}:%{version}
-Requires:       %{dkms_name}-driver = %{?epoch}:%{version}
+Provides:       %{dkms_name}-kmod = %{?epoch:%{epoch}:}%{version}
+Requires:       %{dkms_name}-kmod-common = %{?epoch:%{epoch}:}%{version}
 Requires:       dkms
 
 %description
@@ -52,6 +52,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Sun Feb 03 2019 Simone Caronni <negativo17@gmail.com> - 3:410.93-2
+- Do not require nvidia-driver, require nvidia-kmod-common.
+
 * Fri Jan 04 2019 Simone Caronni <negativo17@gmail.com> - 3:410.93-1
 - Update to 410.93.
 
