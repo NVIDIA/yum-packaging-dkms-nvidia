@@ -2,8 +2,8 @@
 %global dkms_name nvidia
 
 Name:           dkms-%{dkms_name}
-Version:        415.27
-Release:        2%{?dist}
+Version:        418.30
+Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
 License:        NVIDIA License
@@ -52,6 +52,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Wed Feb 06 2019 Simone Caronni <negativo17@gmail.com> - 3:418.30-1
+- Update to 418.30.
+
 * Sun Feb 03 2019 Simone Caronni <negativo17@gmail.com> - 3:415.27-2
 - Do not require nvidia-driver, require nvidia-kmod-common.
 
