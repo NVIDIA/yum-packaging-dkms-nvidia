@@ -1,7 +1,9 @@
 %global debug_package %{nil}
 %global dkms_name nvidia
+%global _basename kmod-%{dkms_name}
+%define _named_version %{driver_branch}
 
-Name:           dkms-%{dkms_name}
+Name:           %{_basename}-%{_named_version}
 Version:        410.66
 Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
@@ -12,14 +14,14 @@ URL:            http://www.nvidia.com/object/unix.html
 ExclusiveArch:  x86_64 ppc64le
 
 Source0:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
-Source1:        %{name}.conf
+Source1:        dkms-%{dkms_name}.conf
 Source2:        %{dkms_name}-kmod-%{version}-ppc64le.tar.xz
 
 BuildRequires:  sed
 
 Provides:       %{dkms_name}-kmod = %{?epoch}:%{version}
-Obsoletes:      %{dkms_name}-kmod < %{?epoch}:%{version}
-Conflicts:      %{dkms_name}-kmod
+Obsoletes:      dkms-%{dkms-name} < %{?epoch}:%{version}
+Conflicts:      dkms-%{dkms-name}
 Requires:       %{dkms_name}-driver = %{?epoch}:%{version}
 Requires:       dkms
 
