@@ -18,10 +18,8 @@ Source1:        dkms-%{dkms_name}.conf
 Source2:        %{dkms_name}-kmod-%{version}-ppc64le.tar.xz
 BuildRequires:  sed
 
-Provides:       %{dkms_name}-kmod = %{?epoch}:%{version}
-Obsoletes:      dkms-%{dkms-name} < %{?epoch}:%{version}
-Conflicts:      dkms-%{dkms-name}
-Requires:       %{dkms_name}-driver = %{?epoch}:%{version}
+Provides:       %{dkms_name}-kmod = %{?epoch:%{epoch}:}%{version}
+Requires:       %{dkms_name}-kmod-common = %{?epoch:%{epoch}:}%{version}
 Requires:       dkms
 
 %description
