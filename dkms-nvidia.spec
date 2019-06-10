@@ -61,27 +61,6 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
-* Wed Oct 17 2018 Simone Caronni <negativo17@gmail.com> - 3:410.66-1
-- Update to 410.66.
-
-* Sat Sep 22 2018 Simone Caronni <negativo17@gmail.com> - 3:410.57-1
-- Update to 410.57.
-
-* Wed Aug 22 2018 Simone Caronni <negativo17@gmail.com> - 3:396.54-1
-- Update to 396.54.
-
-* Sun Aug 19 2018 Simone Caronni <negativo17@gmail.com> - 3:396.51-1
-- Update to 396.51.
-
-* Fri Jul 20 2018 Simone Caronni <negativo17@gmail.com> - 3:396.45-1
-- Update to 396.45.
-
-* Fri Jun 01 2018 Simone Caronni <negativo17@gmail.com> - 3:396.24-1
-- Update to 396.24, x86_64 only.
-
-* Tue May 22 2018 Simone Caronni <negativo17@gmail.com> - 3:390.59-1
-- Update to 390.59.
-
 * Sat May 18 2019 Simone Caronni <negativo17@gmail.com> - 3:430.14-1
 - Update to 430.14.
 
