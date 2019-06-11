@@ -1,9 +1,7 @@
 %global debug_package %{nil}
 %global dkms_name nvidia
-%global _basename kmod-%{dkms_name}
-%define _named_version %{driver_branch}
 
-Name:           %{_basename}-%{_named_version}
+Name:           kmod-%{dkms_name}-latest-dkms
 Version:        430.14
 Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
