@@ -56,6 +56,13 @@ dkms add -m %{dkms_name} -v %{version} -q || :
 dkms build -m %{dkms_name} -v %{version} -q || :
 dkms install -m %{dkms_name} -v %{version} -q --force || :
 
+# DKMS will save any old "nvidia" modules away and restore it
+# when we remove the DKMS package again. This breaks the
+# yum swap behavior. Since there's no way of telling DKMS
+# not to do that, just disable this here by deleting the
+# original_module` directory.
+rm -rf /var/lib/dkms/%{dkms_name}/original_module
+
 %preun
 # Remove all versions from DKMS registry
 dkms remove -m %{dkms_name} -v %{version} -q --all || :
