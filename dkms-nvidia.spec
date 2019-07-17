@@ -20,7 +20,11 @@ Source2:        %{dkms_name}-kmod-%{version}-ppc64le.tar.xz
 BuildRequires:  sed
 
 Provides:       %{dkms_name}-kmod = %{?epoch}:%{version}
+
+%if 0%{?is_dkms} == 1
 Obsoletes:      dkms-%{dkms_name} < %{?epoch}:%{version}
+%endif
+
 Conflicts:      dkms-%{dkms_name}
 Requires:       %{dkms_name}-driver = %{?epoch}:%{version}
 Requires:       dkms
