@@ -26,7 +26,8 @@ The modules are rebuilt through the DKMS system when a new kernel or modules
 become available.
 
 %prep
-%setup -q -n %{dkms_name}-kmod-%{version}-x86_64
+%autosetup -p1 -n %{dkms_name}-kmod-%{version}-x86_64
+
 cp -f %{SOURCE1} kernel/dkms.conf
 
 sed -i -e 's/__VERSION_STRING/%{version}/g' kernel/dkms.conf
