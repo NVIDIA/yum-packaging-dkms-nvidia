@@ -3,7 +3,7 @@
 
 Name:           dkms-%{dkms_name}
 Version:        455.45.01
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
 License:        NVIDIA License
@@ -13,6 +13,8 @@ ExclusiveArch:  x86_64
 
 Source0:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
 Source1:        %{name}.conf
+
+Patch0:         https://people.freedesktop.org/~aplattner/reduce-kmalloc-limit-455.38.patch
 
 BuildRequires:  sed
 
@@ -26,7 +28,7 @@ The modules are rebuilt through the DKMS system when a new kernel or modules
 become available.
 
 %prep
-%autosetup -p1 -n %{dkms_name}-kmod-%{version}-x86_64
+%autosetup -p0 -n %{dkms_name}-kmod-%{version}-x86_64
 
 cp -f %{SOURCE1} kernel/dkms.conf
 
@@ -53,6 +55,10 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Sun Nov 29 2020 Simone Caronni <negativo17@gmail.com> - 3:455.45.01-2
+- Add temporary patch for memory allocation:
+  https://forums.developer.nvidia.com/t/455-23-04-page-allocation-failure-in-kernel-module-at-random-points/155250
+
 * Wed Nov 18 2020 Simone Caronni <negativo17@gmail.com> - 3:455.45.01-1
 - Update to 455.45.01.
 
