@@ -50,6 +50,7 @@ sed -i -e 's/__VERSION_STRING/%{version}/g' kernel/dkms.conf
 # Create empty tree
 mkdir -p %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
 cp -fr kernel/* %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
+rm -v %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/nvidia/*.h
 
 %post
 dkms add -m %{dkms_name} -v %{version} -q || :
