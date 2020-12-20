@@ -13,6 +13,7 @@ ExclusiveArch:  x86_64
 
 Source0:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
 Source1:        %{name}.conf
+Source2:        dkms-no-weak-modules.conf
 
 BuildRequires:  sed
 
@@ -35,27 +36,36 @@ sed -i -e 's/__VERSION_STRING/%{version}/g' kernel/dkms.conf
 %build
 
 %install
-# Create empty tree
+# Create empty tree:
 mkdir -p %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
 cp -fr kernel/* %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
 
+%if 0%{?fedora}
+# Do not enable weak modules support in Fedora (no kABI):
+install -p -m 644 -D %{SOURCE2} %{buildroot}%{_sysconfdir}/dkms/nvidia.conf
+%endif
+
 %post
 dkms add -m %{dkms_name} -v %{version} -q || :
-# Rebuild and make available for the currently running kernel
+# Rebuild and make available for the currently running kernel:
 dkms build -m %{dkms_name} -v %{version} -q || :
 dkms install -m %{dkms_name} -v %{version} -q --force || :
 
 %preun
-# Remove all versions from DKMS registry
+# Remove all versions from DKMS registry:
 dkms remove -m %{dkms_name} -v %{version} -q --all || :
 
 %files
 %{_usrsrc}/%{dkms_name}-%{version}
+%if 0%{?fedora}
+%{_sysconfdir}/dkms/nvidia.conf
+%endif
 
 %changelog
 * Sun Dec 20 2020 Simone Caronni <negativo17@gmail.com> - 3:460.27.04-1
 - Update to 460.27.04.
 - Trim changelog.
+- Do not enable weak module support on Fedora.
 
 * Tue Oct 06 2020 Simone Caronni <negativo17@gmail.com> - 3:450.80.02-1
 - Update to 450.80.02.
