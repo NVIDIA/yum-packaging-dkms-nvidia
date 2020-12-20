@@ -2,8 +2,8 @@
 %global dkms_name nvidia
 
 Name:           dkms-%{dkms_name}
-Version:        455.45.01
-Release:        2%{?dist}
+Version:        460.27.04
+Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
 License:        NVIDIA License
@@ -13,8 +13,6 @@ ExclusiveArch:  x86_64
 
 Source0:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
 Source1:        %{name}.conf
-
-Patch0:         https://people.freedesktop.org/~aplattner/reduce-kmalloc-limit-455.38.patch
 
 BuildRequires:  sed
 
@@ -55,6 +53,10 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Sun Dec 20 2020 Simone Caronni <negativo17@gmail.com> - 3:460.27.04-1
+- Update to 460.27.04.
+- Trim changelog.
+
 * Sun Nov 29 2020 Simone Caronni <negativo17@gmail.com> - 3:455.45.01-2
 - Add temporary patch for memory allocation:
   https://forums.developer.nvidia.com/t/455-23-04-page-allocation-failure-in-kernel-module-at-random-points/155250
@@ -137,63 +139,3 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 
 * Thu Jan 17 2019 Simone Caronni <negativo17@gmail.com> - 3:415.27-1
 - Update to 415.27.
-
-* Thu Dec 20 2018 Simone Caronni <negativo17@gmail.com> - 3:415.25-1
-- Update to 415.25.
-
-* Fri Dec 14 2018 Simone Caronni <negativo17@gmail.com> - 3:415.23-1
-- Update to 415.23.
-
-* Sun Dec 09 2018 Simone Caronni <negativo17@gmail.com> - 3:415.22-1
-- Update to 415.22.
-
-* Thu Nov 22 2018 Simone Caronni <negativo17@gmail.com> - 3:415.18-1
-- Update to 415.18.
-
-* Mon Nov 19 2018 Simone Caronni <negativo17@gmail.com> - 3:410.78-1
-- Update to 410.78.
-
-* Fri Oct 26 2018 Simone Caronni <negativo17@gmail.com> - 3:410.73-1
-- Update to 410.73.
-
-* Wed Oct 17 2018 Simone Caronni <negativo17@gmail.com> - 3:410.66-1
-- Update to 410.66.
-
-* Sat Sep 22 2018 Simone Caronni <negativo17@gmail.com> - 3:410.57-1
-- Update to 410.57.
-
-* Wed Aug 22 2018 Simone Caronni <negativo17@gmail.com> - 3:396.54-1
-- Update to 396.54.
-
-* Sun Aug 19 2018 Simone Caronni <negativo17@gmail.com> - 3:396.51-1
-- Update to 396.51.
-
-* Fri Jul 20 2018 Simone Caronni <negativo17@gmail.com> - 3:396.45-1
-- Update to 396.45.
-
-* Fri Jun 01 2018 Simone Caronni <negativo17@gmail.com> - 3:396.24-1
-- Update to 396.24, x86_64 only.
-
-* Tue May 22 2018 Simone Caronni <negativo17@gmail.com> - 3:390.59-1
-- Update to 390.59.
-
-* Tue Apr 03 2018 Simone Caronni <negativo17@gmail.com> - 3:390.48-1
-- Update to 390.48.
-
-* Wed Mar 21 2018 Simone Caronni <negativo17@gmail.com> - 3:390.42-2
-- Re-add kernel 4.15 patch.
-
-* Thu Mar 15 2018 Simone Caronni <negativo17@gmail.com> - 3:390.42-1
-- Update to 390.42.
-
-* Tue Feb 27 2018 Simone Caronni <negativo17@gmail.com> - 3:390.25-3
-- Align Epoch with the other packages.
-
-* Wed Feb 21 2018 Simone Caronni <negativo17@gmail.com> - 2:390.25-2
-- Add kernel 4.15 patch.
-
-* Tue Jan 30 2018 Simone Caronni <negativo17@gmail.com> - 2:390.25-1
-- Update to 390.25.
-
-* Fri Jan 19 2018 Simone Caronni <negativo17@gmail.com> - 2:390.12-1
-- Update to 390.12.
