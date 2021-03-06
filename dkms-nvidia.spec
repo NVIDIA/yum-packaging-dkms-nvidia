@@ -27,7 +27,7 @@ The modules are rebuilt through the DKMS system when a new kernel or modules
 become available.
 
 %prep
-%autosetup -p1 -n %{dkms_name}-kmod-%{version}-x86_64
+%autosetup -p0 -n %{dkms_name}-kmod-%{version}-x86_64
 
 cp -f %{SOURCE1} kernel/dkms.conf
 
@@ -75,6 +75,19 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 - Update to 460.27.04.
 - Trim changelog.
 - Do not enable weak module support on Fedora.
+
+* Sun Nov 29 2020 Simone Caronni <negativo17@gmail.com> - 3:455.45.01-2
+- Add temporary patch for memory allocation:
+  https://forums.developer.nvidia.com/t/455-23-04-page-allocation-failure-in-kernel-module-at-random-points/155250
+
+* Wed Nov 18 2020 Simone Caronni <negativo17@gmail.com> - 3:455.45.01-1
+- Update to 455.45.01.
+
+* Mon Nov 02 2020 Simone Caronni <negativo17@gmail.com> - 3:455.38-1
+- Update to 455.38.
+
+* Mon Oct 12 2020 Simone Caronni <negativo17@gmail.com> - 3:455.28-1
+- Update to 455.28.
 
 * Tue Oct 06 2020 Simone Caronni <negativo17@gmail.com> - 3:450.80.02-1
 - Update to 450.80.02.
