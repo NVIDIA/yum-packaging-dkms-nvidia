@@ -2,7 +2,7 @@
 %global dkms_name nvidia
 
 Name:           kmod-%{dkms_name}-latest-dkms
-Version:        430.14
+Version:        %{?version}%{?!version:430.14}
 Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3

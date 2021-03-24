@@ -18,6 +18,8 @@ The `main` branch contains this README and a sample build script. The `.spec` an
 - [Prerequisites](#Prerequisites)
   * [Clone this git repository](#Clone-this-git-repository)
   * [Install build dependencies](#Install-build-dependencies)
+- [Building with script](#Building-with-script)
+- [Building Manually](#Building-Manually)
 - [Related](#Other-NVIDIA-driver-packages)
   * [Precompiled kernel modules](#Precompiled-kernel-modules)
   * [NVIDIA driver](#NVIDIA-driver)
@@ -90,6 +92,52 @@ git clone -b ${branch} https://github.com/NVIDIA/yum-packaging-dkms-nvidia
 ```shell
 # Packaging
 yum install rpm-build dkms
+```
+
+
+## Building with script
+
+### Fetch script from `main` branch
+
+```shell
+cd yum-packaging-dkms-nvidia
+git checkout remotes/origin/main -- build.sh
+```
+
+### Usage
+
+```shell
+./build.sh path/to/*.run
+> ex: time ./build.sh ~/Downloads/NVIDIA-Linux-x86_64-450.102.04.run
+```
+
+
+## Building Manually
+
+### Generate tarball from runfile
+
+```shell
+version="450.102.04"
+sh NVIDIA-Linux-x86_64-${version}.run --extract-only --target extract
+mkdir nvidia-kmod-${version}-x86_64
+mv extract/kernel nvidia-kmod-${version}-x86_64/
+tar -cJf nvidia-kmod-${version}-x86_64.tar.xz nvidia-kmod-${version}-x86_64
+```
+
+### Packaging
+
+```shell
+mkdir BUILD BUILDROOT RPMS SRPMS SOURCES SPECS
+cp dkms-nvidia.conf SOURCES/
+cp nvidia-kmod-${version}-x86_64.tar.xz SOURCES/
+cp dkms-nvidia.spec SPECS/
+
+rpmbuild \
+    --define "%_topdir $(pwd)" \
+    --define "debug_package %{nil}" \
+    --define "version $version" \
+    --define "epoch 3" \
+    -v -bb SPECS/dkms-nvidia.spec
 ```
 
 ## Related
