@@ -2,7 +2,7 @@
 %global dkms_name nvidia
 
 Name:           kmod-%{dkms_name}-latest-dkms
-Version:        430.14
+Version:        %{?version}%{?!version:430.14}
 Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
@@ -25,6 +25,14 @@ Requires:       dkms
 This package provides the proprietary Nvidia kernel driver modules.
 The modules are rebuilt through the DKMS system when a new kernel or modules
 become available.
+
+%package -n nvidia-kmod-headers
+Summary:        NVIDIA header files for precompiled streams
+AutoReq:        0
+Conflicts:      kmod-nvidia-latest-dkms
+
+%description -n nvidia-kmod-headers
+NVIDIA header files for precompiled streams
 
 %prep
 %ifarch x86_64
@@ -61,10 +69,16 @@ dkms install -m %{dkms_name} -v %{version} -q --force || :
 # Remove all versions from DKMS registry
 dkms remove -m %{dkms_name} -v %{version} -q --all || :
 
-%files
+%files -n kmod-%{dkms_name}-latest-dkms
+%{_usrsrc}/%{dkms_name}-%{version}
+
+%files -n nvidia-kmod-headers
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Tue Mar 23 2021 Kevin Mittman <kmittman@nvidia.com> - 3:460.00-1
+- Add nvidia-kmod-headers package.
+
 * Sat May 18 2019 Simone Caronni <negativo17@gmail.com> - 3:430.14-1
 - Update to 430.14.
 
