@@ -116,20 +116,23 @@ git checkout remotes/origin/main -- build.sh
 
 ### Generate tarball from runfile
 
+> _note:_ architecture is `x86_64`, `ppc64le`, or `aarch64` (sbsa)
+
 ```shell
 version="450.102.04"
-sh NVIDIA-Linux-x86_64-${version}.run --extract-only --target extract
-mkdir nvidia-kmod-${version}-x86_64
-mv extract/kernel nvidia-kmod-${version}-x86_64/
-tar -cJf nvidia-kmod-${version}-x86_64.tar.xz nvidia-kmod-${version}-x86_64
+sh NVIDIA-Linux-${arch}-${version}.run --extract-only --target extract
+mkdir nvidia-kmod-${version}-${arch}
+mv extract/kernel nvidia-kmod-${version}-${arch}/
+tar -cJf nvidia-kmod-${version}-${arch}.tar.xz nvidia-kmod-${version}-${arch}
 ```
 
-### Packaging
+### Packaging (`dnf` distros)
+> note: `fedora` & `rhel8`-based distros
 
 ```shell
 mkdir BUILD BUILDROOT RPMS SRPMS SOURCES SPECS
 cp dkms-nvidia.conf SOURCES/
-cp nvidia-kmod-${version}-x86_64.tar.xz SOURCES/
+cp nvidia-kmod-${version}-${arch}.tar.xz SOURCES/
 cp dkms-nvidia.spec SPECS/
 
 rpmbuild \
@@ -137,8 +140,34 @@ rpmbuild \
     --define "debug_package %{nil}" \
     --define "version $version" \
     --define "epoch 3" \
+    --target "${arch}" \
     -v -bb SPECS/dkms-nvidia.spec
 ```
+
+### Packaging (`yum` distros)
+> note: `rhel7`-based distros
+
+```shell
+mkdir BUILD BUILDROOT RPMS SRPMS SOURCES SPECS
+cp dkms-nvidia.conf SOURCES/
+cp nvidia-kmod-${version}-${arch}.tar.xz SOURCES/
+cp dkms-nvidia.spec SPECS/
+
+# latest-dkms
+rpmbuild \
+    --define "%_topdir $(pwd)" \
+    --define "debug_package %{nil}" \
+    --define "version $version" \
+    --define "driver_branch latest-dkms" \
+    --define "is_dkms 1" \
+    --define "is_latest 1" \
+    --define "epoch 3" \
+    --target "${arch}" \
+    -v -bb SPECS/dkms-nvidia.spec
+```
+
+> _note:_ to build `kmod-nvidia-branch-XXX` and `kmod-nvidia-latest` packages see [yum-packaging-precompiled-kmod](https://github.com/NVIDIA/yum-packaging-precompiled-kmod)
+
 
 ## Related
 
