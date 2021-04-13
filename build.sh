@@ -5,6 +5,9 @@ distro="$2"
 topdir="$HOME/dkms-nvidia"
 epoch="3"
 
+[[ -n $OUTPUT ]] ||
+OUTPUT="$HOME/rpm-nvidia"
+
 [[ -n $distro ]] ||
 distro=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 [[ $distro == "main" ]] && distro="rhel8"
@@ -119,4 +122,9 @@ else
 fi
 
 echo "---"
-find "$topdir/RPMS" -mindepth 2 -maxdepth 2 -type f -name "*${version}*"
+found=$(find "$topdir/RPMS" -mindepth 2 -maxdepth 2 -type f -name "*${version}*" 2>/dev/null)
+for rpm in $found; do
+    echo "-> $(basename "$rpm")"
+    mkdir -p "$OUTPUT"
+    rsync -a "$rpm" "$OUTPUT"
+done
