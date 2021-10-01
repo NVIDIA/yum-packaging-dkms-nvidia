@@ -2,19 +2,18 @@
 %global dkms_name nvidia
 
 Name:           kmod-%{dkms_name}-latest-dkms
-Version:        %{?version}%{?!version:430.14}
+Version:        430.14
 Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
 License:        NVIDIA License
 URL:            http://www.nvidia.com/object/unix.html
 # Package is not noarch as it contains pre-compiled binary code
-ExclusiveArch:  x86_64 ppc64le aarch64
+ExclusiveArch:  x86_64 ppc64le
 
 Source0:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
 Source1:        dkms-%{dkms_name}.conf
 Source2:        %{dkms_name}-kmod-%{version}-ppc64le.tar.xz
-Source3:        %{dkms_name}-kmod-%{version}-aarch64.tar.xz
 BuildRequires:  sed
 
 Provides:       %{dkms_name}-kmod = %{?epoch:%{epoch}:}%{version}
@@ -26,14 +25,6 @@ This package provides the proprietary Nvidia kernel driver modules.
 The modules are rebuilt through the DKMS system when a new kernel or modules
 become available.
 
-%package -n nvidia-kmod-headers
-Summary:        NVIDIA header files for precompiled streams
-AutoReq:        0
-Conflicts:      kmod-nvidia-latest-dkms
-
-%description -n nvidia-kmod-headers
-NVIDIA header files for precompiled streams
-
 %prep
 %ifarch x86_64
 %setup -q -n %{dkms_name}-kmod-%{version}-x86_64
@@ -42,11 +33,6 @@ cp -f %{SOURCE1} kernel/dkms.conf
 
 %ifarch ppc64le
 %setup -q -T -b 2 -n %{dkms_name}-kmod-%{version}-ppc64le
-cp -f %{SOURCE1} kernel/dkms.conf
-%endif
-
-%ifarch aarch64
-%setup -q -T -b 3 -n %{dkms_name}-kmod-%{version}-aarch64
 cp -f %{SOURCE1} kernel/dkms.conf
 %endif
 
@@ -69,16 +55,10 @@ dkms install -m %{dkms_name} -v %{version} -q --force || :
 # Remove all versions from DKMS registry
 dkms remove -m %{dkms_name} -v %{version} -q --all || :
 
-%files -n kmod-%{dkms_name}-latest-dkms
-%{_usrsrc}/%{dkms_name}-%{version}
-
-%files -n nvidia-kmod-headers
+%files
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
-* Tue Mar 23 2021 Kevin Mittman <kmittman@nvidia.com> - 3:460.00-1
-- Add nvidia-kmod-headers package.
-
 * Sat May 18 2019 Simone Caronni <negativo17@gmail.com> - 3:430.14-1
 - Update to 430.14.
 
