@@ -4,18 +4,19 @@
 %define _named_version %{driver_branch}
 
 Name:           %{_basename}-%{_named_version}
-Version:        410.66
+Version:        %{?version}%{?!version:410.66}
 Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
 License:        NVIDIA License
 URL:            http://www.nvidia.com/object/unix.html
 # Package is not noarch as it contains pre-compiled binary code
-ExclusiveArch:  x86_64 ppc64le
+ExclusiveArch:  x86_64 ppc64le aarch64
 
 Source0:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
 Source1:        dkms-%{dkms_name}.conf
 Source2:        %{dkms_name}-kmod-%{version}-ppc64le.tar.xz
+Source3:        %{dkms_name}-kmod-%{version}-aarch64.tar.xz
 
 BuildRequires:  sed
 
@@ -37,14 +38,17 @@ become available.
 %prep
 %ifarch x86_64
 %setup -q -n %{dkms_name}-kmod-%{version}-x86_64
-cp -f %{SOURCE1} kernel/dkms.conf
 %endif
 
 %ifarch ppc64le
 %setup -q -T -b 2 -n %{dkms_name}-kmod-%{version}-ppc64le
-cp -f %{SOURCE1} kernel/dkms.conf
 %endif
 
+%ifarch aarch64
+%setup -q -T -b 3 -n %{dkms_name}-kmod-%{version}-aarch64
+%endif
+
+cp -f %{SOURCE1} kernel/dkms.conf
 sed -i -e 's/__VERSION_STRING/%{version}/g' kernel/dkms.conf
 
 %build
@@ -75,6 +79,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Thu Apr 08 2021 Kevin Mittman <kmittman@nvidia.com> - 3:460.00-1
+- Use version variable and add unofficial aarch64 support for RHEL/CentOS 7
+
 * Wed Oct 17 2018 Simone Caronni <negativo17@gmail.com> - 3:410.66-1
 - Update to 410.66.
 
