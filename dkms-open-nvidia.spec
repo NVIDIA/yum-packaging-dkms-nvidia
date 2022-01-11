@@ -1,11 +1,10 @@
 %global debug_package %{nil}
 %global dkms_name nvidia-open
 %global kmod_source NVIDIA-kernel-module-source
-%define _named_version %{driver_branch}
 
 %define kmod_o_dir		%{_libdir}/nvidia/%{_target}/%{kmod_driver_version}/
 
-Name:           kmod-%{dkms_name}-%{_named_version}
+Name:           kmod-%{dkms_name}-dkms
 Version:        %{?version}%{?!version:410.66}
 Release:        1%{?dist}
 Summary:        NVIDIA driver open kernel module flavor
