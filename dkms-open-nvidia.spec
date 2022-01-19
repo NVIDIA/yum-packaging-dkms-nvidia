@@ -28,6 +28,7 @@ Obsoletes:      dkms-%{dkms_name} < %{?epoch}:%{version}
 
 Conflicts:      dkms-%{dkms_name}
 Conflicts:      kmod-nvidia-latest-dkms
+Provides:       kmod-nvidia-latest-dkms = %{?epoch:%{epoch}:}%{version}
 Provides:       nvidia-kmod = %{?epoch:%{epoch}:}%{version}
 Requires:       nvidia-kmod-common = %{?epoch:%{epoch}:}%{version}
 Requires:       dkms
