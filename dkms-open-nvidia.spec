@@ -102,6 +102,7 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %{_usrsrc}/%{dkms_name}-%{version}/nvidia*
 %{_usrsrc}/%{dkms_name}-%{version}/Kbuild
 %{_usrsrc}/%{dkms_name}-%{version}/Makefile
+%{_usrsrc}/%{dkms_name}-%{version}/*.mk
 %{_usrsrc}/%{dkms_name}-%{version}/conftest.sh
 %{_usrsrc}/%{dkms_name}-%{version}/dkms.conf
 
