@@ -34,7 +34,7 @@ The `main` branch contains this README and a sample build script. The `.spec` an
 
 ## Deliverables
 
-This repo contains the `.spec` file used to build the following **RPM** packages:
+This repo contains the `.spec` file(s) used to build the following **RPM** packages:
 
 > *note:* `XXX` is the first `.` delimited field in the driver version, ex: `460` in `460.32.03`
 
@@ -50,6 +50,15 @@ This repo contains the `.spec` file used to build the following **RPM** packages
   kmod-nvidia-latest-dkms-${version}-${rel}.${dist}.${arch}.rpm
   > ex: kmod-nvidia-latest-dkms-460.32.03-1.el7.x86_64.rpm
   ```
+
+* [Open GPU Kernel Modules](https://github.com/NVIDIA/open-gpu-kernel-modules) streams available in `515` and newer: `open-dkms` and `XXX-open`
+  ```shell
+  kmod-nvidia-open-dkms-${version}-${rel}.${dist}.${arch}.rpm
+  > ex: kmod-nvidia-open-dkms-515.48.07-1.el9.x86_64.rpm
+  > ex: kmod-nvidia-open-dkms-515.43.04-1.fc35.x86_64.rpm
+  ```
+
+---
 
 The `latest` and `latest-dkms` streams/flavors always update to the highest versioned driver, while the `XXX` and `XXX-dkms` streams/flavors lock driver updates to the specified driver branch.
 
@@ -92,6 +101,9 @@ git clone -b ${branch} https://github.com/NVIDIA/yum-packaging-dkms-nvidia
 ```shell
 # Packaging
 yum install rpm-build dkms
+
+# Optional: compile open kernel modules from source
+yum install g++
 ```
 
 
@@ -112,7 +124,7 @@ git checkout remotes/origin/main -- build.sh
 ```
 
 
-## Building Manually
+## Building Manually (legacy modules)
 
 ### Generate tarball from runfile
 
@@ -125,6 +137,7 @@ mkdir nvidia-kmod-${version}-${arch}
 mv extract/kernel nvidia-kmod-${version}-${arch}/
 tar -cJf nvidia-kmod-${version}-${arch}.tar.xz nvidia-kmod-${version}-${arch}
 ```
+
 
 ### Packaging (`dnf` distros)
 > note: `fedora` & `rhel8`-based distros
@@ -167,6 +180,74 @@ rpmbuild \
 ```
 
 > _note:_ to build `kmod-nvidia-branch-XXX` and `kmod-nvidia-latest` packages see [yum-packaging-precompiled-kmod](https://github.com/NVIDIA/yum-packaging-precompiled-kmod)
+
+
+
+## Building Manually (open modules)
+
+### Generate input
+
+> _note:_ architecture is `x86_64`, or `aarch64` (sbsa)
+
+#### Use runfile
+
+This method uses pre-build nvidia.o and nvidia-drm.o modules included with the NVIDIA driver runfile
+
+```shell
+version="515.48.07"
+sh NVIDIA-Linux-${arch}-${version}.run --extract-only --target extract
+mkdir nvidia-open-kmod-${version}-${arch}
+mv extract/kernel-open nvidia-open-kmod-${version}-${arch}/
+tar -cJf nvidia-open-kmod-${version}-${arch}.tar.xz nvidia-open-kmod-${version}-${arch}
+```
+
+**or**
+
+#### Use NVIDIA-kernel-module-source tarball
+
+This method builds nvidia.o and nvidia-drm.o modules from [NVIDIA-kernel-module-source*.tar.xz](https://download.nvidia.com/XFree86/NVIDIA-kernel-module-source/)
+
+Compile from source code
+```shell
+version="515.48.07"
+tar -xf NVIDIA-kernel-module-source-${version}.tar.xz
+cd NVIDIA-kernel-module-source-${version}
+make -j6 modules
+```
+
+Copy .o modules to expected location (work-in-progress)
+```shell
+rm -f kernel-open/nvidia/nv-kernel.o_binary &&
+cp -av src/nvidia/_out/Linux_${arch}/nv-kernel.o kernel-open/nvidia/nv-kernel.o_binary
+rm -f kernel-open/nvidia-modeset/nv-modeset-kernel.o_binary &&
+cp -av src/nvidia-modeset/_out/Linux_${arch}/nv-modeset-kernel.o kernel-open/nvidia-modeset/nv-modeset-kernel.o_binary
+```
+
+Create input tarball
+```
+cd ..
+mkdir nvidia-open-kmod-${version}-${arch}
+mv NVIDIA-kernel-module-source-${version}/kernel-open nvidia-open-kmod-${version}-${arch}/
+tar -cJf nvidia-open-kmod-${version}-${arch}.tar.xz nvidia-open-kmod-${version}-${arch}
+```
+
+### Packaging (open modules)
+
+```shell
+mkdir BUILD BUILDROOT RPMS SRPMS SOURCES SPECS
+cp dkms-nvidia.conf SOURCES/
+cp nvidia-open-kmod-${version}-${arch}.tar.xz SOURCES/
+cp NVIDIA-kernel-module-source-${version}.tar.xz SOURCES/
+cp dkms-open-nvidia.spec SPECS/
+
+rpmbuild \
+    --define "%_topdir $(pwd)" \
+    --define "debug_package %{nil}" \
+    --define "version $version" \
+    --define "epoch 3" \
+    --target "${arch}" \
+    -v -bb SPECS/dkms-open-nvidia.spec
+```
 
 
 ## Related
