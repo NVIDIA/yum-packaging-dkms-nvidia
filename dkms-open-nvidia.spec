@@ -26,6 +26,7 @@ Conflicts:      kmod-nvidia-latest-dkms
 Provides:       nvidia-kmod = %{?epoch:%{epoch}:}%{version}
 Requires:       nvidia-kmod-common = %{?epoch:%{epoch}:}%{version}
 Requires:       dkms
+Requires:	gcc-c++
 
 %description
 This package provides the open-source Nvidia kernel driver modules.
